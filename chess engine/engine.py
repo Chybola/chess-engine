@@ -1,15 +1,6 @@
 
-"""Simple chess engine.
-
-This version is intentionally small and easy to read.
-It uses only standard Python features.
-"""
-
 from copy import deepcopy
-
 from chess_board import Color, PieceType
-
-
 class ChessEngine:
     def __init__(self, depth=1):
         self.depth = depth
@@ -23,7 +14,6 @@ class ChessEngine:
         }
 
     def choose_move(self, game):
-        """Pick the best move for the current player."""
         color = game.current_player
         moves = list(game.get_all_legal_moves(color))
         if not moves:
@@ -44,17 +34,11 @@ class ChessEngine:
         return best_move
 
     def score_move(self, game, move):
-        """Score one move by making a copy of the game and evaluating it."""
         game_copy = deepcopy(game)
         game_copy.make_move(*move)
         return self.evaluate(game_copy)
 
     def evaluate(self, game):
-        """Return a score for the current board.
-
-        Positive means better for White.
-        Negative means better for Black.
-        """
         if game.game_over:
             if game.winner == 'WHITE':
                 return 100000
@@ -90,7 +74,6 @@ class ChessEngine:
         return score
 
     def position_bonus(self, piece, row, col):
-        """Give a tiny bonus for useful squares."""
         center_distance = abs(3.5 - row) + abs(3.5 - col)
 
         if piece.type == PieceType.PAWN:
